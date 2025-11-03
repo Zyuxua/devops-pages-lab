@@ -1,9 +1,9 @@
 name: Update Activity Log
 
 on:
-  workflow_dispatch:     
+  workflow_dispatch:     # Allow manual trigger
   schedule:
-    - cron: '0 * * * *' 
+    - cron: '0 * * * *'  # Run every hour
 
 jobs:
   update-readme:
@@ -13,10 +13,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Update activity log in README
+      - name: Update activity log in README.md
         run: |
           echo "Updating activity log..."
-          ACTIVITY="* $(date '+%Y-%m-%d %H:%M:%S'): Workflow run successful "
+          ACTIVITY="* $(date '+%Y-%m-%d %H:%M:%S'): Workflow executed successfully"
+          # Insert new log entry right after the <!--ACTIVITY_LOG--> marker
           sed -i "/<!--ACTIVITY_LOG-->/a $ACTIVITY" README.md
 
       - name: Configure git
@@ -27,5 +28,10 @@ jobs:
       - name: Commit and push changes
         run: |
           git add README.md
-          git diff --cached --quiet || git commit -m "Auto-update activity log"
-          git push https://x-access-token:${{ secrets.TOKEN }}@github.com/Zyuxua/devops-pages-lab.git HEAD:main
+          # Only commit if there are changes
+          if ! git diff --cached --quiet; then
+            git commit -m "Auto-update activity log"
+            git push https://x-access-token:${{ secrets.TOKEN }}@github.com/Zyuxua/devops-pages-lab.git HEAD:main
+          else
+            echo "No changes to commit."
+          fi
