@@ -1,11 +1,14 @@
-# Activity Log
+# devops-pages-lab
 
-最近活動紀錄：
+This repository demonstrates CI/CD automation with GitHub Actions and GitHub Pages deployment.
+
+- Owner: 曾羽瑄
+- Course: DevOps
+- Live Site: https://zyuxua.github.io/devops-pages-lab/
+
+## 📝 Activity Log
+
+The following log is automatically updated by the workflow:
 
 <!--ACTIVITY_LOG-->
-* 2025-11-03 17:41:15: Workflow run successful 
-* 2025-11-03 17:19:15: Workflow run successful 
-* 2025-11-03 16:25:16: Workflow run successful 
-* 2025-11-03 15:23:16: Workflow run successful 
-* 2025-11-03 15:09:56: Workflow run successful 
-* 2025-11-03 15:02:04: Workflow run successful 
+<!--END_ACTIVITY_LOG-->
