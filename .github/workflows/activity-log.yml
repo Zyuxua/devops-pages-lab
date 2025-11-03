@@ -1,9 +1,9 @@
 name: Update Activity Log
 
 on:
-  workflow_dispatch:
+  workflow_dispatch:     
   schedule:
-    - cron: '0 */6 * * *'   # 每6小時自動更新
+    - cron: '0 * * * *' 
 
 jobs:
   update-readme:
@@ -13,12 +13,19 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Generate activity
-        uses: Readme-Workflows/recent-activity@main
-        with:
-          CONFIG_FILE: .github/recent-activity.config.yml
+      - name: Update activity log in README
+        run: |
+          echo "Updating activity log..."
+          ACTIVITY="* $(date '+%Y-%m-%d %H:%M:%S'): Workflow run successful "
+          sed -i "/<!--ACTIVITY_LOG-->/a $ACTIVITY" README.md
 
-      - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "docs: update activity log"
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Commit and push changes
+        run: |
+          git add README.md
+          git diff --cached --quiet || git commit -m "Auto-update activity log"
+          git push https://x-access-token:${{ secrets.TOKEN }}@github.com/Zyuxua/devops-pages-lab.git HEAD:main
