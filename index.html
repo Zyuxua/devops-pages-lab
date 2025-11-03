@@ -1,9 +1,29 @@
 <!doctype html>
-<html lang="en">
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>My GitHub Pages Site</title>
-<h1>My GitHub Pages Site</h1>
-<p>Owner: 曾羽瑄</p>
-<p>Course: DevOps</p>
-<p>Deployed via GitHub Pages.</p>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>DevOps Lab</title>
+</head>
+<body>
+  <h1>DevOps Pages Lab</h1>
+  <p>Owner: 曾羽瑄</p>
+  <p>Course: DevOps</p>
+  <p>Deployed via GitHub Pages.</p>
+  
+  <h2>Recent Activity</h2>
+  <div id="log">Loading...</div>
+
+  <script>
+    fetch('https://api.github.com/repos/Zyuxua/devops-pages-lab/readme')
+      .then(r => r.json())
+      .then(d => {
+        const txt = atob(d.content);
+        const s = txt.indexOf('<!--ACTIVITY_LOG-->') + '<!--ACTIVITY_LOG-->'.length;
+        const e = txt.indexOf('<!--END_ACTIVITY_LOG-->');
+        const log = txt.substring(s, e).trim().replace(/\n/g, '<br>');
+        document.getElementById('log').innerHTML = log || 'No records yet.';
+      })
+      .catch(() => document.getElementById('log').textContent = 'Failed to load.');
+  </script>
+</body>
+</html>
