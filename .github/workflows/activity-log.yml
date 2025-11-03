@@ -1,9 +1,9 @@
 name: Update Activity Log
 
 on:
-  workflow_dispatch:      
+  workflow_dispatch:     
   schedule:
-    - cron: '0 * * * *'  
+    - cron: '0 * * * *' 
 
 jobs:
   update-readme:
@@ -16,7 +16,7 @@ jobs:
       - name: Update activity log in README
         run: |
           echo "Updating activity log..."
-          ACTIVITY="* $(date): Example activity"
+          ACTIVITY="* $(date '+%Y-%m-%d %H:%M:%S'): Workflow run successful "
           sed -i "/<!--ACTIVITY_LOG-->/a $ACTIVITY" README.md
 
       - name: Configure git
@@ -24,9 +24,8 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-
       - name: Commit and push changes
         run: |
           git add README.md
-          git commit -m "Auto-update activity log" || echo "No changes to commit"
+          git diff --cached --quiet || git commit -m "Auto-update activity log"
           git push https://x-access-token:${{ secrets.TOKEN }}@github.com/Zyuxua/devops-pages-lab.git HEAD:main
