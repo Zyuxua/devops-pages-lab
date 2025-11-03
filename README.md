@@ -6,7 +6,7 @@ This repository demonstrates CI/CD automation with GitHub Actions and GitHub Pag
 - Course: DevOps
 - Live Site: https://zyuxua.github.io/devops-pages-lab/
 
-## 📝 Activity Log
+##  Activity Log
 
 The following log is automatically updated by the workflow:
 
