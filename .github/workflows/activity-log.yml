@@ -1,0 +1,30 @@
+name: Update Activity Log
+
+on:
+  schedule:
+    - cron: '0 * * * *'  
+  workflow_dispatch:
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Fetch activity and update README
+        env:
+          TOKEN: ${{ secrets.TOKEN }}
+        run: |
+          echo "Fetching activity..."
+          # 假設使用簡單 echo 模擬活動
+          ACTIVITY="* $(date): Example activity"
+          sed -i "/<!--ACTIVITY_LOG-->/a $ACTIVITY" README.md
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          git commit -m "Auto-update activity log" || echo "No changes"
+          git push
